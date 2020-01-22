@@ -3,6 +3,7 @@ const Post = require("./postDb");
 
 const router = express.Router();
 
+// GET all posts
 router.get("/", (req, res) => {
   Post.get()
     .then(posts => {
@@ -14,13 +15,15 @@ router.get("/", (req, res) => {
     });
 });
 
+// GET post by ID
 router.get("/:id", validatePostId, (req, res) => {
   res.status(200).json(req.post);
 });
 
+// DELETE post and return deleted post obj
 router.delete("/:id", validatePostId, (req, res) => {
-  const { id } = req.post;
   const post = req.post;
+  const { id } = post;
 
   Post.remove(id)
     .then(() => {
@@ -32,6 +35,7 @@ router.delete("/:id", validatePostId, (req, res) => {
     });
 });
 
+// PUT (UPDATE) post and return updated post obj
 router.put("/:id", validatePostId, (req, res) => {
   const { id } = req.post;
   const changes = req.body;
